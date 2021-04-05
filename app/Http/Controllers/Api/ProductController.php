@@ -16,11 +16,7 @@ class ProductController extends BaseController
      */
     public function index()
     {
-        $product = Product::join('categories', 'products.category_id', '=', 'categories.id')
-                    ->join('suppliers', 'products.supplier_id', '=', 'suppliers.id')
-                    ->select('categories.category_name', 'suppliers.name as supplier_name', 'products.*')
-                    ->orderBy('products.id', 'DESC')
-                    ->get();
+        $product = Product::all();
         return $this->sendResponse($product, "Success");
     }
 
@@ -63,6 +59,8 @@ class ProductController extends BaseController
     public function show($id)
     {
         $product = Product::where('id','=',$id)->get();
+        $product[0]->category = Product::find($id)->category;
+        $product[0]->supplier = Product::find($id)->supplier;
         return $this->sendResponse($product, "Success");
     }
 

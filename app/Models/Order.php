@@ -11,4 +11,9 @@ class Order extends Model
     protected $fillable = [
         'customer_id', 'date_of_order'
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+    }
 }

@@ -15,10 +15,7 @@ class OrderController extends BaseController
      */
     public function index()
     {
-        $order = Order::join('customers', 'orders.customer_id', '=', 'customers.id')
-                    ->select('customers.name', 'orders.*')
-                    ->orderBy('orders.id', 'DESC')
-                    ->get();
+        $order = Order::all();
         return $this->sendResponse($order, "Success");
     }
 
@@ -55,6 +52,7 @@ class OrderController extends BaseController
     public function show($id)
     {
         $order = Order::where('id','=',$id)->get();
+        $order[0]->customer = Order::find($id)->customer;
         return $this->sendResponse($order, "Success");
     }
 
